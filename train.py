@@ -24,22 +24,21 @@ parser.add_argument('--ckpt_dir', dest='ckpt_dir', default='./ckpts/',
 
 args = parser.parse_args()
 
-def train(model):
 
+def train(model):
     lr = args.lr * np.ones([args.epochs])
     lr[20:] = lr[0] / 10.0
 
     train_low_data_names = glob(args.data_dir + '/data/our485/low/*.png') + \
                            glob(args.data_dir + '/data/syn/low/*.png')
     train_low_data_names.sort()
-    train_high_data_names= glob(args.data_dir + '/data/our485/high/*.png') + \
-                           glob(args.data_dir + '/data/syn/high/*.png')
+    train_high_data_names = glob(args.data_dir + '/data/our485/high/*.png') + \
+                            glob(args.data_dir + '/data/syn/high/*.png')
     train_high_data_names.sort()
-    eval_low_data_names  = glob(args.data_dir + '/eval/low/*.*')
+    eval_low_data_names = glob(args.data_dir + '/eval/low/*.*')
     eval_low_data_names.sort()
     assert len(train_low_data_names) == len(train_high_data_names)
     print('Number of training data: %d' % len(train_low_data_names))
-
 
     model.train(train_low_data_names,
                 train_high_data_names,
